@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Network Infrastructure Blueprint with Explanations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- For icons -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .component {
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 5px;
+            background-color: #fff;
+            text-align: center;
+            min-width: 140px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+        .component:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .component.staff {
+            background-color: #d4edda; /* Light green for staff */
+            border-color: #28a745;
+        }
+        .component.student {
+            background-color: #cce7ff; /* Light blue for student */
+            border-color: #007bff;
+        }
+        .component.internet {
+            background-color: #fff3cd; /* Light yellow for internet */
+            border-color: #ffc107;
+        }
+        .component.core {
+            background-color: #f8d7da; /* Light red for core */
+            border-color: #dc3545;
+        }
+        .component.backup {
+            background-color: #e2e3e5; /* Light gray for backup */
+            border-color: #6c757d;
+        }
+        .arrow {
+            font-size: 24px;
+            color: #333;
+            margin: 0 10px;
+        }
+        .line {
+            border-top: 2px solid #333;
+            width: 100px;
+            margin: 10px 0;
+        }
+        .legend {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #e9e9e9;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+        }
+        .legend h3 {
+            margin-top: 0;
+        }
+        .tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 5px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the component */
+            left: 50%;
+            margin-left: -150px;
+            width: 300px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+        .component:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .explanation-panel {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .explanation-panel.show {
+            display: block;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Network Infrastructure Blueprint with Explanations</h1>
+        <p><strong>Top-Down View of School Network Layout</strong> - Hover over components for quick tips, or click for full explanations!</p>
+        
+        <!-- Internet Providers -->
+        <div class="row">
+            <div class="component internet" onclick="showExplanation('internet')">
+                <i class="fas fa-globe icon"></i><br>Internet Provider 1
+                <div class="tooltip">
+                    <strong>What it is:</strong> Primary internet connection.<br>
+                    <strong>How it works:</strong> Provides high-speed access; switches to backup if it fails.<br>
+                    <strong>Why important:</strong> Adds redundancy.<br>
+                    <strong>Solves problems:</strong> Improves reliability and reduces downtime from outages. Handles increasing demands with more bandwidth.
+                </div>
+            </div>
+            <div class="arrow">↔</div>
+            <div class="component internet" onclick="showExplanation('internet')">
+                <i class="fas fa-globe icon"></i><br>Backup Internet Provider 2
+                <div class="tooltip">
+                    <strong>What it is:</strong> Secondary internet connection.<br>
+                    <strong>How it works:</strong> Takes over if primary fails.<br>
+                    <strong>Why important:</strong> Ensures no single point of failure.<br>
+                    <strong>Solves problems:</strong> Boosts reliability and minimizes downtime.
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+        
+        <!-- Fiber Backbone -->
+        <div class="row">
+            <div class="component" onclick="showExplanation('fiber')">
+                <i class="fas fa-network-wired icon"></i><br>Fiber Optic Backbone<br>(High-Speed Cabling)
+                <div class="tooltip">
+                    <strong>What it is:</strong> Main data cable.<br>
+                    <strong>How it works:</strong> Carries data at 10 Gbps speeds.<br>
+                    <strong>Why important:</strong> Upgrades from slow cables.<br>
+                    <strong>Solves problems:</strong> Enhances reliability, supports demands, reduces downtime.
+                </div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- Core Router -->
+        <div class="row">
+            <div class="component core" onclick="showExplanation('router')">
+                <i class="fas fa-router icon"></i><br>Core Router<br>(Firewall & Load Balancing)
+                <div class="tooltip">
+                    <strong>What it is:</strong> Central traffic director.<br>
+                    <strong>How it works:</strong> Manages security and bandwidth.<br>
+                    <strong>Why important:</strong> Main hub.<br>
+                    <strong>Solves problems:</strong> Improves reliability, allocates bandwidth, prevents overloads.
+                </div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- VLAN Switches -->
+        <div class="row">
+            <div class="component staff" onclick="showExplanation('vlan')">
+                <i class="fas fa-server icon"></i><br>Staff VLAN Switch
+                <div class="tooltip">
+                    <strong>What it is:</strong> Isolated staff network.<br>
+                    <strong>How it works:</strong> Separates staff traffic.<br>
+                    <strong>Why important:</strong> Security and organization.<br>
+                    <strong>Solves problems:</strong> Boosts reliability, reduces congestion.
+                </div>
+            </div>
+            <div class="arrow">↔</div>
+            <div class="component student" onclick="showExplanation('vlan')">
+                <i class="fas fa-server icon"></i><br>Student VLAN Switch
+                <div class="tooltip">
+                    <strong>What it is:</strong> Isolated student network.<br>
+                    <strong>How it works:</strong> Separates student traffic.<br>
+                    <strong>Why important:</strong> Prevents mixing.<br>
+                    <strong>Solves problems:</strong> Handles demands, minimizes downtime.
+                </div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- Access Points -->
+        <div class="row">
+            <div class="component staff" onclick="showExplanation('ap')">
+                <i class="fas fa-wifi icon"></i><br>AP1: Office
+                <div class="tooltip">
+                    <strong>What it is:</strong> Wi-Fi hotspot for offices.<br>
+                    <strong>How it works:</strong> Broadcasts signals.<br>
+                    <strong>Why important:</strong> Covers specific zones.<br>
+                    <strong>Solves problems:</strong> Eliminates dead spots, improves reliability.
+                </div>
+            </div>
+            <div class="component staff" onclick="showExplanation('ap')">
+                <i class="fas fa-wifi icon"></i><br>AP2: Library
+                <div class="tooltip">Similar to AP1, for library coverage.</div>
+            </div>
+            <div class="component student" onclick="showExplanation('ap')">
+                <i class="fas fa-wifi icon"></i><br>AP3: Classroom
+                <div class="tooltip">Similar to AP1, for classroom coverage.</div>
+            </div>
+            <div class="component student" onclick="showExplanation('ap')">
+                <i class="fas fa-wifi icon"></i><br>AP4: Lab
+                <div class="tooltip">Similar to AP1, for lab coverage.</div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- Devices -->
+        <div class="row">
+            <div class="component staff" onclick="showExplanation('devices')">
+                <i class="fas fa-desktop icon"></i><br>Staff Devices<br>(PCs, Laptops)
+                <div class="tooltip">
+                    <strong>What it is:</strong> End-user devices for staff.<br>
+                    <strong>How it works:</strong> Connect to network.<br>
+                    <strong>Why important:</strong> Real users.<br>
+                    <strong>Solves problems:</strong> Ensures smooth operation.
+                </div>
+            </div>
+            <div class="arrow">↔</div>
+            <div class="component student" onclick="showExplanation('devices')">
+                <i class="fas fa-tablet-alt icon"></i><br>Student Devices<br>(Tablets, IoT)
+                <div class="tooltip">
+                    <strong>What it is:</strong> End-user devices for students.<br>
+                    <strong>How it works:</strong> Connect to network.<br>
+                    <strong>Why important:</strong> Real users.<br>
+                    <strong>Solves problems:</strong> Supports demands.
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+        
+        <!-- Redundant Path -->
+        <div class="row">
+            <div class="component" onclick="showExplanation('redundant')">
+                <i class="fas fa-exchange-alt icon"></i><br>Redundant Path
+                <div class="tooltip">
+                    <strong>What it is:</strong> Backup route.<br>
+                    <strong>How it works:</strong> Reroutes traffic on failure.<br>
+                    <strong>Why important:</strong> Extra layer of backup.<br>
+                    <strong>Solves problems:</strong> Improves reliability.
+                </div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- Backup Switch -->
+        <div class="row">
+            <div class="component backup" onclick="showExplanation('backup')">
+                <i class="fas fa-server icon"></i><br>Backup Switch<br>(Emergency Failover)
+                <div class="tooltip">
+                    <strong>What it is:</strong> Secondary switch.<br>
+                    <strong>How it works:</strong> Takes over in emergencies.<br>
+                    <strong>Why important:</strong> Plan B.<br>
+                    <strong>Solves problems:</strong> Minimizes downtime.
+                </div>
+            </div>
+        </div>
+        <div class="arrow">↓</div>
+        
+        <!-- Server Room -->
+        <div class="row">
+            <div class="component" onclick="showExplanation('server')">
+                <i class="fas fa-database icon"></i><br>Server Room<br>(Storage & Management)
+                <div class="tooltip">
+                    <strong>What it is:</strong> Centralized data hub.<br>
+                    <strong>How it works:</strong> Stores and manages data.<br>
+                    <strong>Why important:</strong> Control center.<br>
+                    <strong>Solves problems:</strong> Boosts reliability.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <h3>Legend</h3>
+            <ul>
+                <li><strong>Icons:</strong> Represent hardware types.</li>
+                <li><strong>Colors:</strong> Green for Staff, Blue for Student, etc.</li>
+                <li><strong>Interactivity:</strong> Hover for quick tips; click for full explanations in a popup.</li>
+                <li><strong>Overall:</strong> This blueprint solves reliability, downtime, and demands through redundancy, segmentation, and upgrades.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Explanation Panels -->
+    <div id="explanation-panel" class="explanation-panel">
+        <span class="close-btn" onclick="closeExplanation()">×</span>
+        <div id="explanation-content"></div>
+    </div>
+
+    <script>
+        const explanations = {
+            internet: `
+                <h2>Internet Providers</h2>
+                <p><strong>What it is:</strong> Two separate internet connections from different providers.</p>
+                <p><strong>How it works:</strong> The network connects to both. If one fails, traffic switches automatically.</p>
+                <p><strong>Why it's important:</strong> Adds redundancy (backup).</p>
+                <p><strong>How it solves problems:</strong> Improves reliability (no single point of failure) and reduces downtime (e.g., during outages). Handles increasing demands by providing more bandwidth.</p>
+                <p><strong>Presentation Tip:</strong> "This is like having a backup generator for your home internet."</p>
+            `,
+            fiber: `
+                <h2>Fiber Optic Backbone</h2>
+                <p><strong>What it is:</strong> High-speed cable running through the school.</p>
+                <p><strong>How it works:</strong> Carries data at up to 10 Gbps.</p>
+                <p><strong>Why it's important:</strong> Upgrades from old cables.</p>
+                <p><strong>How it solves problems:</strong> Boosts reliability, supports demands, minimizes downtime.</p>
+                <p><strong>Presentation Tip:</strong> "Like upgrading to a highway for faster data."</p>
+            `,
+            router: `
+                <h2>Core Router</h2>
+                <p><strong>What it is:</strong> Central 'brain' directing traffic.</p>
+                <p><strong>How it works:</strong> Applies security and balances loads.</p>
+                <p><strong>Why it's important:</strong> Main hub.</p>
+                <p><strong>How it solves problems:</strong> Enhances reliability, allocates bandwidth fairly.</p>
+                <p><strong>Presentation Tip:</strong> "The school's main office managing everything."</p>
+            `,
+            vlan: `
+                <h2>VLAN Switches</h2>
+                <p><strong>What it is:</strong> Separate virtual networks for staff and students.</p>
+                <p><strong>How it works:</strong> Traffic is split and isolated.</p>
+                <p><strong>Why it's important:</strong> Security and organization.</p>
+                <p><strong>How it solves problems:</strong> Improves reliability, reduces congestion.</p>
+                <p><strong>Presentation Tip:</strong> "Separate hallways for teachers and students."</p>
+            `,
+            ap: `
+                <h2>Wi-Fi Access Points</h2>
+                <p><strong>What it is:</strong> Wireless routers in key areas.</p>
+                <p><strong>How it works:</strong> Broadcast signals with no gaps.</p>
+                <p><strong>Why it's important:</strong> Covers the whole school.</p>
+                <p><strong>How it solves problems:</strong> Eliminates dead spots, boosts reliability.</p>
+                <p><strong>Presentation Tip:</strong> "Wi-Fi hotspots everywhere—no more 'no signal'."</p>
+            `,
+            devices: `
+                <h2>Devices</h2>
+                <p><strong>What it is:</strong> End-user devices (PCs, tablets, etc.).</p>
+                <p><strong>How it works:</strong> Connect to the network.</p>
+                <p><strong>Why it's important:</strong> Real users.</p>
+                <p><strong>How it solves problems:</strong> Ensures smooth operation for demands.</p>
+                <p><strong>Presentation Tip:</strong> "This is you—now connected reliably."</p>
+            `,
+            redundant: `
+                <h2>Redundant Path</h2>
+                <p><strong>What it is:</strong> Backup route for data.</p>
+                <p><strong>How it works:</strong> Reroutes on failure.</p>
+                <p><strong>Why it's important:</strong> Extra backup.</p>
+                <p><strong>How it solves problems:</strong> Improves reliability.</p>
+                <p><strong>Presentation Tip:</strong> "The emergency exit for data."</p>
+            `,
+            backup: `
+                <h2>Backup Switch</h2>
+                <p><strong>What it is:</strong> Secondary switch for emergencies.</p>
+                <p><strong>How it works:</strong> Takes over if main fails.</p>
+                <p><strong>Why it's important:</strong> Plan B.</p>
+                <p><strong>How it solves problems:</strong> Minimizes downtime.</p>
+                <p><strong>Presentation Tip:</strong> "Like a spare tire."</p>
+            `,
+            server: `
+                <h2>Server Room</h2>
+                <p><strong>What it is:</strong> Centralized data storage.</p>
+                <p><strong>How it works:</strong> Manages and backs up data.</p>
+                <p><strong>Why it's important:</strong> Control center.</p>
+                <p><strong>How it solves problems:</strong> Boosts reliability.</p>
+                <p><strong>Presentation Tip:</strong> "Where the magic happens behind the scenes."</p>
+            `
+        };
+
+        function showExplanation(key) {
+            document.getElementById('explanation
